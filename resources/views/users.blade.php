@@ -3,7 +3,7 @@
 @section('content')
 
 @foreach ($users as $user)
-	<p>{{ $user->name }} {{ $user->fname }} {{ $user->votes }}</p>
+	<p><a href="<?=route('edit', ['id'=>$user->id])?>">{{ $user->name }} {{ $user->fname }} {{ $user->votes }}</a></p>
 @endforeach
 
 {{ $users->links() }}
