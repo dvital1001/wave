@@ -1,8 +1,8 @@
 <?php
-use App\Contact;
+use App\Ticket;
 use Illuminate\Database\Seeder;
 
-class ContactsTableSeeder extends Seeder
+class TicketsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class ContactsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Contact::class, 50)->create(); 
+        factory(Ticket::class, 50)->create(); 
     }
 }

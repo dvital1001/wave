@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Contact extends Model
+class Ticket extends Model
 {
-    public $timestamps = false;
+	protected $fillable = [
+		'title',
+		'text',
+		'user_id',
+    ];
     
     public function user()
     {
