@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'TicketsController@index')->name('ticket.index')->middleware('auth');
+Route::get('/tickets/', 'TicketsController@tickets')->name('ticket.tickets');
 Route::get('/ticket/create/', 'TicketsController@create')->name('ticket.create')->middleware('auth');
 Route::post('/ticket/store/', 'TicketsController@store')->name('ticket.store')->middleware('auth');
 Route::get('/ticket/{id}/edit/', 'TicketsController@edit')->name('ticket.edit')->where(['id'=>'[0-9]+'])->middleware('auth');
 Route::post('/ticket/{id}/update/', 'TicketsController@update')->name('ticket.update')->where(['id'=>'[0-9]+'])->middleware('auth');
+Route::get('/ticket/{id}/delete/', 'TicketsController@delete')->name('ticket.delete')->where(['id'=>'[0-9]+'])->middleware('auth');
 Auth::routes();
