@@ -10,9 +10,11 @@
 	</ul>
 @endif
 
-<form action="<?=route('ticket.update', ['id'=>$ticket->id, ])?>" method="POST">
+<form action="<?=route('ticket.update', ['id'=>$ticket->id, ])?>" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
 <input type="text" name="title" value="{{ $ticket->title }}">
 <textarea name="text">{{ $ticket->text }}</textarea>
+<input type="file" name="img">
 <input type="submit">
 @csrf	
 </form>

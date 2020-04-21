@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use App\Ticket;
 use Auth;
 use App\User;
+use File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class TicketsController extends Controller
 {
@@ -18,9 +22,18 @@ class TicketsController extends Controller
 	
 	public function tickets()
     {
+		$query = 'voluptatem'; // <-- Change the query for testing.
+		$tickets = Ticket::search($query)->get();
+    	return response()->json($tickets);		
+		
+		
+		Log::alert("сообщение");
+		$users = cache()->remember('users', 7200, function(){
+			return User::all();
+		});
 		//return response()->json(Ticket::all());
-		//eturn response()->download('file.csv');
-		return response()->json(['Tom', 'Jerry']);
+		//return Storage::disk('public')->download('66');
+		return response()->json($users);
 	}
 	
 	public function create()
@@ -43,6 +56,18 @@ class TicketsController extends Controller
     {
 		$ticket = Ticket::findOrFail($id);
 		$ticket->update($request->only(['title', 'text',]));
+		
+		$original = $request->file('img');
+		
+		$image = Image::make($original)->resize(150, null, function($constraint) {
+			$constraint->aspectRatio();
+		})->encode('jpg', 75);
+		
+		Storage::disk('public')->put(
+			"{$id}", 
+			$image->getEncoded()
+		); 
+		
 		return redirect()->route('ticket.index');
 	}
 	
