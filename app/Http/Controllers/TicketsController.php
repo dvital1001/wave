@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use App\Http\Requests\CreateTicketRequest;
 //use App\Http\Requests\EditTicketRequest;
+use App\Mail\AssigmentCreated;
 use App\Ticket;
 use Auth;
 use App\User;
 use File;
+use Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -22,6 +24,8 @@ class TicketsController extends Controller
 	
 	public function tickets()
     {
+		Mail::to('info@sokov.org')->queue(new AssigmentCreated(Ticket::where('user_id', Auth::id())->first()));
+		
 		$query = 'voluptatem'; // <-- Change the query for testing.
 		$tickets = Ticket::search($query)->get();
     	return response()->json($tickets);		
