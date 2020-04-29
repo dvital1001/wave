@@ -14,6 +14,9 @@ use Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Notifications\WorkoutAvailable;
+use Illuminate\Support\Facades\Redis;
+
 
 class TicketsController extends Controller
 {
@@ -24,7 +27,11 @@ class TicketsController extends Controller
 	
 	public function tickets()
     {
-		Mail::to('info@sokov.org')->queue(new AssigmentCreated(Ticket::where('user_id', Auth::id())->first()));
+		$redis = Redis::connection();
+		var_dump($redis);
+		die;
+		User::all()->first()->notify(new WorkoutAvailable("hi"));
+		//Mail::to('info@sokov.org')->queue(new AssigmentCreated(Ticket::where('user_id', Auth::id())->first()));
 		
 		$query = 'voluptatem'; // <-- Change the query for testing.
 		$tickets = Ticket::search($query)->get();
